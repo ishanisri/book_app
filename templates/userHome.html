@@ -1,0 +1,197 @@
+<html lang="en">
+  <head>
+    <title>Python Book App</title>
+ 
+   </head>
+   <body>
+   <!--	<div id="search-form">
+   		<form >
+   		<input type="radio" name="radio" id="Title">Title<br>
+   		<input type="radio" name="radio" id="Author">Author<br>
+   		<input type="radio" name="radio" id="Publisher">Publisher<br>
+   		
+   		<input type="radio" name="radio" id="Subject">Subject<br>
+   		<input type="radio" name="radio" id="ISBN">ISBN<br>
+   		<input id="search" type="text">
+   		<button id="searchButton">Search</button></form>
+   	</div>
+
+
+   	<div id="search-result">
+   	</div>-->
+   	<div>
+   		<table border=1>
+   			{% for row in data_dict %}
+         
+            <tr>
+
+
+               
+               <td ><div>
+               	
+               <img id={{row.i}} src={{row.url}} >
+
+                <h3 id={{row.i}}>{{ row.Title }} </h3><h4>: {{row.Subtitle}}</h4> by {{ row.Author}} <br> <b> Categories:</b>{{ row.Subject }}
+               	<br><b>Published by:</b>{{ row.Publisher }}<div>
+               		<button id={{row.i}} onclick="library(this.id)"> Add to library</button> &nbsp; <button id={{row.i}} onclick="currently(this.id)" >Add to currently reading</button> &nbsp; <button id={{row.i}} onclick="want(this.id)">Add to want to read</button>
+               		&nbsp;<button id={{row.i}} onclick="favourites(this.id)">Add to favourites</button></td>
+               
+               
+            </tr>
+            
+         {% endfor %}
+      </table>
+
+      Currently reading
+   		
+<div>
+	<table border=1>
+		{% for row in cur_dict %}
+         
+            <tr>
+
+
+               
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+ Favourite books
+<div>
+	<table border=1>
+		{% for row in fav_dict %}
+         
+            <tr>
+
+
+               
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+
+Books want to read
+<div>
+	<table border=1>
+		{% for row in want_dict %}
+         
+            <tr>
+
+
+               
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+
+Library
+<div>
+	<table border=1>
+		{% for row in lib_dict %}
+         
+            <tr>
+
+
+               
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+
+
+   	</div>
+   </body>
+   <!--<script src="https://googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>-->
+   <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+  <!-- <script src="../main.js"></script>-->
+  <script>
+  function currently(id){
+  	console.log(document.getElementsByTagName("h3")[id].innerHTML);
+  	$.ajax({
+		url:"/currently",
+        data:JSON.stringify(document.getElementsByTagName("h3")[id].innerHTML),
+		datatype:"json",
+		contentType: "application/json; charset=UTF-8",
+		success: function(data){
+			console.log(data);
+			location.reload(true);
+			
+		},
+		type:'POST'
+	})
+  }
+  
+  function library(id){
+  	console.log(document.getElementsByTagName("h3")[id].innerHTML);
+  	$.ajax({
+		url:"/library",
+        data:JSON.stringify(document.getElementsByTagName("h3")[id].innerHTML),
+		datatype:"json",
+		contentType: "application/json; charset=UTF-8",
+		success: function(data){
+			console.log(data);
+			location.reload(true);
+			
+		},
+		type:'POST'
+	})
+  }
+  
+ function want(id){
+  	console.log(document.getElementsByTagName("h3")[id].innerHTML);
+  	$.ajax({
+		url:"/want",
+        data:JSON.stringify(document.getElementsByTagName("h3")[id].innerHTML),
+		datatype:"json",
+		contentType: "application/json; charset=UTF-8",
+		success: function(data){
+			console.log(data);
+			location.reload(true);
+			
+		},
+		type:'POST'
+	})
+  }
+  function favourites(id){
+  	console.log(document.getElementsByTagName("h3")[id].innerHTML);
+  	$.ajax({
+		url:"/favourites",
+        data:JSON.stringify(document.getElementsByTagName("h3")[id].innerHTML),
+		datatype:"json",
+		contentType: "application/json; charset=UTF-8",
+		success: function(data){
+			console.log(data);
+			location.reload(true);
+			
+		},
+		type:'POST'
+	})
+  }
+  
+   
+
+
+  
+  </script>
+
+   </html>

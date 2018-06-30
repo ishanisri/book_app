@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Python Flask Book App</title>
+ 
+    
+    
+    <link href="../static/signup.css" rel="stylesheet">
+    
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <!--<div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <!--<li role="presentation" ><a href="main">Home</a></li>-->
+          <!--  <li role="presentation"><a href="#">Sign In</a></li>
+            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
+          </ul>
+        </nav>-->
+
+        <h3 class="text-muted">Python Flask Book App</h3>
+      </div>
+ 
+      <div class="jumbotron">
+        
+        <form class="form-signin" action="/signUp" method="POST">
+        <div><label for="inputName" class="sr-only">Name</label>
+        <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Name" required autofocus></div><br>
+        <div><label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus></div><br>
+        <div><label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required></div>
+         <br>
+        <input id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit" value="sign Up" >
+      </form>
+      </div>
+ 
+       
+ 
+      
+ 
+    </div>
+   <!-- <script src="{{url_for('static', filename='jquery.js')}}"></script>-->
+  <!-- <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+  <!-- <script src="../static/js/signUp.js"></script>-->
+  <!--<script>$(function(){
+  $('#btnSignUp').click(function(){
+    
+    $.ajax({
+      url: '/signUp',
+      data: $('form').serialize(),
+      type: 'GET',
+      success: function(response){
+        console.log(response);
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
+  });
+});
+</script>-->
+  </body><style>
+  *{box-sizing: border-box;
+    }
+    .jumbotron{ border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: center;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}</style>
+</html>
