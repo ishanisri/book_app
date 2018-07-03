@@ -1,25 +1,114 @@
 <html lang="en">
   <head>
     <title>Python Book App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  
    </head>
    <body>
-   <!--	<div id="search-form">
-   		<form >
-   		<input type="radio" name="radio" id="Title">Title<br>
-   		<input type="radio" name="radio" id="Author">Author<br>
-   		<input type="radio" name="radio" id="Publisher">Publisher<br>
+   	 <div class="header">
+            <nav>
+                
+                    <a href="/logout">Logout</a>
+                    
+                
+            </nav>
+
+        </div>
+        <h2> Search here</h2>
+   	<div id="search-form">
+   		<form  action="/search" method="POST">
+   		<input type="radio" name="radio" id="Title" value ="Title">Title<br>
+   		<input type="radio" name="radio" id="Author" value ="Author">Author<br>
+   		<input type="radio" name="radio" id="Publisher" value="Publisher">Publisher<br>
    		
-   		<input type="radio" name="radio" id="Subject">Subject<br>
-   		<input type="radio" name="radio" id="ISBN">ISBN<br>
-   		<input id="search" type="text">
-   		<button id="searchButton">Search</button></form>
+   		<input type="radio" name="radio" id="Subject" value="Subject">Subject<br>
+   		<input type="radio" name="radio" id="ISBN 13" value="ISBN">ISBN<br>
+   		<input id="search" type="text" name="search">
+   		<button type="submit" id="btnSearch"><i class="fa fa-search"></i></button></form>
    	</div>
 
 
-   	<div id="search-result">
-   	</div>-->
+
    	<div>
+
+
+      <h2>Currently reading</h2>
+   		
+<div>
+	<table border=1>
+		{% for row in cur_dict %}
+         
+            <tr>
+
+
+               <th>Title</th></tr><tr>
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+<h2> Favourite books</h2>
+<div>
+	<table border=1>
+		{% for row in fav_dict %}
+         
+            <tr>
+
+
+               <th>Title</th></tr><tr>
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+
+<h2>Books want to read</h2>
+<div>
+	<table border=1>
+		{% for row in want_dict %}
+         
+            <tr>
+
+
+               <th>Title</th></tr><tr>
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+
+<h2>Library</h2>
+<div>
+	<table border=1>
+		{% for row in lib_dict %}
+         
+            <tr>
+
+
+               <th> Title</th></tr><tr>
+               <td> {{ row.Title }}</td>
+
+            </tr>
+            
+         {% endfor %}
+		
+	</table>
+
+</div>
+<h2>Titles in the Store</h2>
+<div>
    		<table border=1>
    			{% for row in data_dict %}
          
@@ -32,99 +121,23 @@
                <img id={{row.i}} src={{row.url}} >
 
                 <h3 id={{row.i}}>{{ row.Title }} </h3><h4>: {{row.Subtitle}}</h4> by {{ row.Author}} <br> <b> Categories:</b>{{ row.Subject }}
-               	<br><b>Published by:</b>{{ row.Publisher }}<div>
-               		<button id={{row.i}} onclick="library(this.id)"> Add to library</button> &nbsp; <button id={{row.i}} onclick="currently(this.id)" >Add to currently reading</button> &nbsp; <button id={{row.i}} onclick="want(this.id)">Add to want to read</button>
+               	<br><b>Published by:</b>{{ row.Publisher }}<br> ISBN 13: {{row.ISBN}}<div>
+               	<!--	<button id={{row.i}} onclick="library(this.id)"> Add to library</button> &nbsp; <button id={{row.i}} onclick="currently(this.id)" >Add to currently reading</button> &nbsp; <button id={{row.i}} onclick="want(this.id)">Add to want to read</button>
                		&nbsp;<button id={{row.i}} onclick="favourites(this.id)">Add to favourites</button></td>
                
-               
+               -->
             </tr>
             
          {% endfor %}
       </table>
-
-      Currently reading
-   		
-<div>
-	<table border=1>
-		{% for row in cur_dict %}
-         
-            <tr>
-
-
-               
-               <td> {{ row.Title }}</td>
-
-            </tr>
-            
-         {% endfor %}
-		
-	</table>
-
-</div>
- Favourite books
-<div>
-	<table border=1>
-		{% for row in fav_dict %}
-         
-            <tr>
-
-
-               
-               <td> {{ row.Title }}</td>
-
-            </tr>
-            
-         {% endfor %}
-		
-	</table>
-
-</div>
-
-Books want to read
-<div>
-	<table border=1>
-		{% for row in want_dict %}
-         
-            <tr>
-
-
-               
-               <td> {{ row.Title }}</td>
-
-            </tr>
-            
-         {% endfor %}
-		
-	</table>
-
-</div>
-
-Library
-<div>
-	<table border=1>
-		{% for row in lib_dict %}
-         
-            <tr>
-
-
-               
-               <td> {{ row.Title }}</td>
-
-            </tr>
-            
-         {% endfor %}
-		
-	</table>
-
-</div>
-
+    </div>
 
    	</div>
    </body>
    <!--<script src="https://googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>-->
    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
   <!-- <script src="../main.js"></script>-->
-  <script>
+  <!--<script>
   function currently(id){
   	console.log(document.getElementsByTagName("h3")[id].innerHTML);
   	$.ajax({
@@ -192,6 +205,63 @@ Library
 
 
   
-  </script>
+  </script>-->
+  <style>
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+
+button {
+    background-color: #45a049;}
+
+.form-group{ border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+h2{
+  color:orange;
+}
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+
+
+table tr:hover {background-color: #ddd;}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+*{
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+
+
+
+</style>
+
+
 
    </html>

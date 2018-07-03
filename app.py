@@ -64,13 +64,27 @@ def signedUp():
             	_subject=','.join(i['volumeInfo'].get('categories',''))
 
             	print(_subject)
-            	image=None
+            	_image=None
+            	_isbn=None
+            	check=i['volumeInfo']['industryIdentifiers']
+            	print(check)
+            	for val in check:
+            	 val1=val.get('type')
+            	 print(val1)
+            	 if (val1 =='ISBN_13'):
+            	    _isbn=val['identifier']
+            	    print(_isbn)
             	if i['volumeInfo'].get('imageLinks') is not None:
             		_image=i['volumeInfo'].get('imageLinks').get('thumbnail')
             	print(_image)
-            	cur.execute("INSERT INTO books(title,subtitle,author,subject,publisher,image) VALUES (?,?,?,?,?,?)",(_title,_subtitle,_author,_subject,_publisher,_image))
-                
-            
+            	cur.execute("SELECT * FROM books where title=?",(_title,))
+            	data=cur.fetchall()
+            	if(data):
+            		print("books not empty")
+            	else:	
+            		cur.execute("INSERT INTO books(title,subtitle,author,subject,publisher,image,isbn) VALUES (?,?,?,?,?,?,?)",(_title,_subtitle,_author,_subject,_publisher,_image,_isbn))
+            	print(_isbn)
+             
 
 
             
@@ -144,6 +158,7 @@ def userHome():
 		       'Subject':x[4],
 		       'Publisher':x[5],
 		       'url':x[6],
+		       'ISBN':x[3],
 		        'i':i
 		}
 		i=i+1
@@ -203,6 +218,7 @@ def userHome():
 		lib_dict.append(fav)
 
 	print(lib_dict)
+	print("almost done")
 	
 	return render_template('userHome.html',data_dict=data_dict,cur_dict=cur_dict,fav_dict=fav_dict,want_dict=want_dict,lib_dict=lib_dict)
 
@@ -230,8 +246,8 @@ def show_currently_reading():
 	con.commit()
 	cur.close()
 	con.close()
-	print(request.referrer)
-	return redirect(request.referrer)
+	
+	return redirect('/userHome')
 
 @app.route('/library',methods=['POST'])
 def show_library():
@@ -253,8 +269,8 @@ def show_library():
 	con.commit()
 	cur.close()
 	con.close()
-	print(request.referrer)
-	return redirect(request.referrer)
+	#print(request.referrer)
+	return redirect('/userHome')
 
 @app.route('/favourites',methods=['POST'])
 def show_favourites():
@@ -276,8 +292,8 @@ def show_favourites():
 	con.commit()
 	cur.close()
 	con.close()
-	print(request.referrer)
-	return redirect(request.referrer)
+	#print(request.referrer)
+	return redirect('/userHome')
 
 
 @app.route('/want',methods=['POST'])
@@ -300,9 +316,58 @@ def show_want():
 	con.commit()
 	cur.close()
 	con.close()
-	print(request.referrer)
-	return redirect(request.referrer)
+	#print(request.referrer)
+	print("hello")
+	return redirect('/userHome')
 
+
+@app.route('/search',methods=['GET','POST'])
+def search():
+	if (request.method=='POST'):
+		print("hi")
+		_query=request.form.get('radio',False)
+		_param=request.form.get('search',False)
+		print(_param)
+		print(_query)
+		
+		_username=session.get('user')
+		con=sql.connect("books.db")
+		cur=con.cursor()
+		if _query=='Title':
+		   cur.execute("SELECT * FROM books WHERE title=?",(_param,))
+		elif _query=='Author':
+		   cur.execute("SELECT * FROM books WHERE  author=?",(_param,))
+		elif _query=='Publisher':
+		   cur.execute("SELECT * FROM books WHERE publisher=?",(_param,))
+		elif _query=='Subject' :
+		    print("inside")
+		    cur.execute("SELECT * FROM books WHERE  subject=?",(_param,))
+		    m=cur.fetchall()
+		    print(m)
+		elif _query=='ISBN':
+		    cur.execute("SELECT * FROM books WHERE isbn=?",(_param,)) 
+		data=cur.fetchall()
+		print(data)
+		i=0
+		data_dict=[]
+		if (data):
+		 for x in data:
+		   x_dict={
+			       'Title':x[0],
+			       'Subtitle':x[1],
+			       'Author':x[2],
+			       'Subject':x[4],
+			       'Publisher':x[5],
+			       'url':x[6],
+			        'i':i
+			}
+		   i=i+1
+		   data_dict.append(x_dict)
+		 print(data_dict)
+		 return render_template('searchPage.html',data_dict=data_dict)
+		else: 
+		 return render_template('error.html',error="No results found")
+				      
 
 
 
